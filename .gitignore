@@ -1,0 +1,10 @@
+.ipynb_checkpoints/
+__pycache__/
+*.csv
+*.xlsx
+*.xls
+*.parquet
+*.db
+*.sqlite
+.env*
+!README.md

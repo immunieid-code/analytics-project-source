@@ -1,0 +1,32 @@
+# Nur Rahman Shalahudin — analytics source archive
+
+Code companions for Nur Rahman Shalahudin's Data Analyst portfolio. This package is prepared for publication under [immunieid-code](https://github.com/immunieid-code). The original project archive stays local.
+
+## Projects and source
+
+| Project | Source | What the code does | Evidence and limits |
+| --- | --- | --- | --- |
+| Rakamin UNO bank marketing | [`rakamin-uno/`](rakamin-uno/) | EDA, preprocessing, feature selection and classification for term deposit response | Team final project; 45,211 records and 11.7% baseline are from the team report. No bank deployment is claimed. |
+| Cafe Adaruang cash flow | [`cafe-cashflow/analysis.ipynb`](cafe-cashflow/analysis.ipynb) | Normalize cash flow entries, monthly summaries, cost categories, channels and volatility | Eight months of the 2025 monthly summary. Financial workbooks and transactions are withheld. |
+| PT Andis market mapping | [`andis-market-mapping/analysis.ipynb`](andis-market-mapping/analysis.ipynb) | CRM cleanup, segmentation, contact validation and priority mapping | Weekly report confirms audit, integration and dashboard v1; proposed forecasting is not represented as delivered. Company and contact datasets are withheld. |
+| PT Andaru Persada Mandiri revenue | [`apm-revenue/`](apm-revenue/) | Clean historical ledgers and aggregate monthly, quarterly and annual revenue | Two source periods, 2013–2017 and 2018–2023. Raw purchase orders are withheld. |
+| PT Gagas Envirotek growth analysis | [`gagas-growth/`](gagas-growth/) | Customer and product analysis, revenue focus, seasonality and predictive models | Raw purchase orders and customer level outputs are withheld. |
+| 2024 voter matching | [`voter-matching/matching.sql`](voter-matching/matching.sql) | SQL joins across voter and field tables | SQL only; voter names and contact data are withheld. |
+
+Other public case studies already have dedicated repositories: [B2B lab analytics](https://github.com/immunieid-code/b2b-lab-analytics), [growth simulation](https://github.com/immunieid-code/b2b-lab-growth-simulation), [revenue concentration](https://github.com/immunieid-code/b2b-lab-revenue-concentration), [F&B churn](https://github.com/immunieid-code/fnb-revenue-churn-analytics), and [voter matching](https://github.com/immunieid-code/pemilu-2024-db-matching).
+
+## How to read or run
+
+See [PROJECTS.md](PROJECTS.md) for the question, method, evidence and run requirements of each project.
+
+The notebooks preserve the original analysis cells, including Colab upload or Google Drive paths. Their executed outputs and execution counts have been removed. They need the corresponding private data files and, in some cases, path changes before they can run. Start with the markdown and code cells to review the analytical method. Use Python 3 with Jupyter, pandas, NumPy, Matplotlib, seaborn and scikit-learn; individual notebooks may also import statsmodels, Prophet, XGBoost, SciPy or imbalanced-learn.
+
+No raw CSV/XLSX, customer lists, financial records, voter records or notebook outputs are included. The certificate PDFs are linked from the website rather than copied into this code package.
+
+## Provenance
+
+`prepare_public_source.py` in the local archive created this package from nine original notebooks by removing outputs and execution counts, and copied one SQL script. The local archive is the source of truth for project deliverables. Dates on portfolio cards refer to the project folder period; dates inside each project refer to the data period.
+
+## Publication status
+
+Prepared locally. A GitHub repository URL should be added after publishing this package to the account above. Do not describe this folder as public until it is visible on GitHub.
