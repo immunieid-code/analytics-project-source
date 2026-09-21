@@ -1,6 +1,6 @@
 # Nur Rahman Shalahudin — analytics source archive
 
-Code companions for Nur Rahman Shalahudin's Data Analyst portfolio. This package is prepared for publication under [immunieid-code](https://github.com/immunieid-code). The original project archive stays local.
+Code companions for Nur Rahman Shalahudin's Data Analyst portfolio, published under [immunieid-code](https://github.com/immunieid-code). The original project archive stays local.
 
 ## Projects and source
 
@@ -27,6 +27,6 @@ No raw CSV/XLSX, customer lists, financial records, voter records or notebook ou
 
 `prepare_public_source.py` in the local archive created this package from nine original notebooks by removing outputs and execution counts, and copied one SQL script. The local archive is the source of truth for project deliverables. Dates on portfolio cards refer to the project folder period; dates inside each project refer to the data period.
 
-## Publication status
+## Repository
 
-Prepared locally. A GitHub repository URL should be added after publishing this package to the account above. Do not describe this folder as public until it is visible on GitHub.
+This source package is published at [immunieid-code/analytics-project-source](https://github.com/immunieid-code/analytics-project-source). Client datasets remain excluded.
