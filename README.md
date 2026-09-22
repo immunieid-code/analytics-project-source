@@ -19,7 +19,7 @@ The client case studies also have dedicated repositories with source: [PT Gagas 
 
 ## How to read or run
 
-See [PROJECTS.md](PROJECTS.md) for the question, method, evidence and run requirements of each project.
+See [PROJECTS.md](PROJECTS.md) for a Project Overview, question, method, evidence and run requirements for each archived case.
 
 The notebooks preserve the original analysis cells, including Colab upload or Google Drive paths. Their executed outputs and execution counts have been removed. They need the corresponding private data files and, in some cases, path changes before they can run. Start with the markdown and code cells to review the analytical method. Use Python 3 with Jupyter, pandas, NumPy, Matplotlib, seaborn and scikit-learn; individual notebooks may also import statsmodels, Prophet, XGBoost, SciPy or imbalanced-learn.
 

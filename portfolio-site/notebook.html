@@ -88,7 +88,9 @@ body::before{
 .chrome .kernel::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--ok); box-shadow:0 0 0 2px rgba(18,139,69,.18)}
 @media (max-width:760px){
   .chrome nav{display:none}
-  .chrome .kernel{margin-left:auto}
+  .chrome-inner{gap:8px}
+  .chrome .file{min-width:0; flex:1 1 auto; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .chrome .kernel{margin-left:auto; flex:0 0 auto}
 }
 
 /* ---------- Notebook toolbar strip ---------- */
@@ -103,6 +105,7 @@ main{max-width:var(--maxw); margin:0 auto; padding:26px var(--edge) 60px; positi
 
 /* every cell shares one shape */
 .cell{display:grid; grid-template-columns:var(--gutter) minmax(0,1fr); gap:0; margin-bottom:20px; position:relative}
+.cell[id]{scroll-margin-top:64px}
 @media (max-width:760px){ .cell{grid-template-columns:var(--gutter-mobile) minmax(0,1fr)} }
 
 .tag{
@@ -232,6 +235,8 @@ main{max-width:var(--maxw); margin:0 auto; padding:26px var(--edge) 60px; positi
 .proj h3{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap}
 .proj h3 .rel{color:var(--meta); font-weight:500; font-size:.86rem; letter-spacing:.01em}
 .proj .meta{display:flex; flex-wrap:wrap; gap:5px 10px; margin:6px 0 10px}
+.proj .overview{margin:10px 0 8px; color:var(--ink); font-size:.95rem}
+.proj .overview strong{font-family:var(--mono); font-variation-settings:var(--mono-var); font-size:.8rem; color:var(--nb-blue)}
 .proj .links{display:flex; gap:14px; margin-top:14px; flex-wrap:wrap}
 .proj .links a{display:inline-flex; align-items:center; gap:6px; color:var(--nb-blue); font-family:var(--mono); font-variation-settings:var(--mono-var); font-size:12.5px; font-weight:500; text-decoration:none}
 .proj .links a:hover{color:var(--pen); text-decoration:underline}
@@ -433,6 +438,7 @@ seg.groupby(<span class="str">"segment"</span>).agg(<span class="fn">n</span>=(<
       <div class="meta">
         <span class="pill">RFM</span><span class="pill">K-Means</span><span class="pill">CLTV</span><span class="pill">Looker Studio</span>
       </div>
+      <p class="overview"><strong>Project Overview.</strong> PT Gagas Envirotek commissioned a 2026 analysis of its 2020–2025 laboratory-equipment orders to turn account history into sales priorities.</p>
       <p><strong>Problem.</strong> The same sales approach covered 314 accounts despite large differences in order value, recency and product mix. <strong>Approach.</strong> Cleaned 1,575 purchase orders, scored RFM, estimated 24-month CLTV and grouped accounts with K-Means; delivered account-product opportunities and a Looker Studio view. <strong>Finding.</strong> Just 71 loyal accounts (22.6%) generated Rp 25.76B, or 78.9% of analyzed revenue. The ranked lists gave sales a basis to prioritize retention and cross-sell; post-delivery revenue uplift has not been measured.</p>
       <div class="df" role="region" aria-label="Segmentation output">
         <table>
@@ -475,6 +481,7 @@ sim = baseline * retention_lift * cross_sell_lift * cltv_factor</pre>
       <div class="meta">
         <span class="pill">Random Forest</span><span class="pill">Logistic Regression</span><span class="pill">ARIMA</span><span class="pill">Prophet</span>
       </div>
+      <p class="overview"><strong>Project Overview.</strong> This follow-on PT Gagas Envirotek engagement extended the customer-segmentation baseline into cross-sell, retention and revenue-planning scenarios.</p>
       <p><strong>Problem.</strong> Instruments accounted for 84.8% of revenue, so the team needed a clearer view of retention risk and other product opportunities. <strong>Approach.</strong> Trained product-type and cross-sell classifiers, scored 180-day retention risk, and compared revenue scenarios with ARIMA/Prophet forecasts. <strong>Finding.</strong> The cross-sell model reached AUC 0.97 on holdout data and 73.6% of accounts were flagged high churn risk. The ~Rp 5.57B estimate for 2026 is a forecast, not realized revenue.</p>
       <div class="plot">
         <h4>Fig. 1 — Cross-sell model, holdout confusion matrix (n = 79)</h4>
@@ -530,6 +537,7 @@ top_share = concentration(ledger, top_pct=<span class="n">.25</span>)</pre>
       <div class="meta">
         <span class="pill">Ledger reconciliation</span><span class="pill">YoY decomposition</span><span class="pill">Concentration analysis</span>
       </div>
+      <p class="overview"><strong>Project Overview.</strong> A separate 2026 study for PT Andaru Persada Mandiri reconciled two purchase-order ledgers spanning 2013–2023 to examine long-run sales volatility and dependence on a small account base.</p>
       <p><strong>Problem.</strong> Fragmented order ledgers made volatile sales and customer dependence hard to quantify. <strong>Approach.</strong> Reconciled the 2013–2017 and 2018–2023 records, measured year-over-year change and grouped customers by contribution. <strong>Finding.</strong> In 2013–2017, 24 accounts held 58.5% of revenue; later annual growth ranged from +250% to −67%. The analysis supports a plan to protect core accounts, grow the middle tier and diversify the base.</p>
       <div class="plot">
         <h4>Fig. 2 — Year-over-year revenue growth, 2019–2023</h4>
@@ -588,6 +596,7 @@ fc = Prophet().fit(monthly).predict(<span class="fn">make_future</span>(months=<
       <div class="meta">
         <span class="pill">RFM</span><span class="pill">K-Means</span><span class="pill">CLTV</span><span class="pill">Prophet</span>
       </div>
+      <p class="overview"><strong>Project Overview.</strong> This unnamed 2024 F&amp;B case used transaction history to study repeat purchasing alongside monthly revenue, with customer retention as the decision at stake.</p>
       <p><strong>Problem.</strong> Transaction records did not show how many customers stopped returning. <strong>Approach.</strong> Defined churn from observed repurchase cadence, used RFM, K-Means and CLTV to study customer value, then forecast the monthly series with Prophet. <strong>Finding.</strong> Across 2,430 transactions, churn was 29% and average customer lifetime was 3.45 months, pointing to retention as the priority. This case study does not report a measured retention lift.</p>
       <div class="plot">
         <h4>Fig. 3 — Monthly revenue with Prophet forecast</h4>
@@ -636,6 +645,7 @@ fc = Prophet().fit(monthly).predict(<span class="fn">make_future</span>(months=<
       <div class="meta">
         <span class="pill">PostgreSQL</span><span class="pill">pg_trgm</span><span class="pill">Record linkage</span>
       </div>
+      <p class="overview"><strong>Project Overview.</strong> A 2024 campaign in Kebayoran Lama needed its voter roll linked to field-contact records across six kelurahan so coordinators could organize polling-station follow-up.</p>
       <p><strong>Problem.</strong> The campaign team spent days matching two voter lists by eye. <strong>Approach.</strong> Used PostgreSQL exact joins on normalized names and polling stations, then pg_trgm similarity at 0.55 for unmatched records. <strong>Result.</strong> Matched and exported 993 records across six neighborhoods in minutes, giving field coordinators a sorted list for follow-up.</p>
       <div class="links">
         <a href="https://nr-shalahudin-7jnq.slides.sleyd.com" target="_blank" rel="noopener">
@@ -659,6 +669,7 @@ fc = Prophet().fit(monthly).predict(<span class="fn">make_future</span>(months=<
     <div class="body">
       <h3>Sales market mapping · PT Andis <span class="rel">Dec 2025–Jan 2026</span></h3>
       <div class="meta"><span class="pill">Python</span><span class="pill">CRM data quality</span><span class="pill">Market segmentation</span><span class="pill">Dashboard</span></div>
+      <p class="overview"><strong>Project Overview.</strong> PT Andis supplied company and contact records for a market-coverage assignment; the documented scope was a CRM audit, data integration and an initial sales dashboard.</p>
       <p><strong>Problem.</strong> CRM records were usable for entry but inconsistent for sales targeting across company, segment, contact and region fields. <strong>Approach.</strong> Audited missing and duplicate values, standardized categories and integrated a market-mapping view. <strong>Result.</strong> The audit and integration were complete in week 2; dashboard v1 was reviewed in week 3, giving sales a shared view of coverage and follow-ups. Lead scoring and forecasting remain proposed next steps.</p>
       <div class="links"><a href="https://github.com/immunieid-code/analytics-project-source/tree/main/andis-market-mapping" target="_blank" rel="noopener">Source notebook ↗</a></div>
     </div>
@@ -668,6 +679,7 @@ fc = Prophet().fit(monthly).predict(<span class="fn">make_future</span>(months=<
     <div class="body">
       <h3>Cafe Adaruang cash flow analysis <span class="rel">Jan 2026 · eight months of 2025 records</span></h3>
       <div class="meta"><span class="pill">Python</span><span class="pill">Pandas</span><span class="pill">Cash flow</span><span class="pill">Cost structure</span></div>
+      <p class="overview"><strong>Project Overview.</strong> A January 2026 review of Cafe Adaruang's income and expense logs covered eight available months of 2025 activity to inform cash planning.</p>
       <p><strong>Problem.</strong> Raw income and expense logs obscured tight months, cost swings and channel mix. <strong>Approach.</strong> Standardized dates and categories, then analyzed monthly cash flow, cost structure, payment channels and volatility. <strong>Finding.</strong> Across eight available months, mean monthly net cash flow was about Rp 110K, with months ranging from −Rp 3.56M to +Rp 3.56M. That thin buffer identifies where expense control and cash planning matter most.</p>
       <div class="links"><a href="https://github.com/immunieid-code/analytics-project-source/tree/main/cafe-cashflow" target="_blank" rel="noopener">Source notebook ↗</a></div>
     </div>
@@ -677,6 +689,7 @@ fc = Prophet().fit(monthly).predict(<span class="fn">make_future</span>(months=<
     <div class="body">
       <h3>Bank UNO marketing targets <span class="rel">Rakamin Data Science Batch 38 · team final project</span></h3>
       <div class="meta"><span class="pill">EDA</span><span class="pill">Classification</span><span class="pill">XGBoost</span><span class="pill">Team project</span></div>
+      <p class="overview"><strong>Project Overview.</strong> The Rakamin Batch 38 UNO team analyzed a bank term-deposit campaign dataset as a bootcamp final project; no bank deployment is claimed.</p>
       <p><strong>Problem.</strong> In the training dataset, only 11.7% of contacted customers subscribed to a term deposit, against a 15% business target. <strong>Approach.</strong> As part of the UNO team, explored 45,211 records, prepared features and compared classifiers. <strong>Result.</strong> The team selected XGBoost on test-set performance and earned Runner-Up Best Final Project Team. The 15% figure is a target, not an achieved campaign result.</p>
       <div class="links"><a href="assets/credentials/rakamin-final-project.pdf" target="_blank" rel="noopener">Team presentation ↗</a><a href="https://github.com/immunieid-code/analytics-project-source/tree/main/rakamin-uno" target="_blank" rel="noopener">Source notebooks ↗</a></div>
     </div>
@@ -698,6 +711,7 @@ fc = Prophet().fit(monthly).predict(<span class="fn">make_future</span>(months=<
       <div class="meta">
         <span class="pill">n8n</span><span class="pill">Express + Firebase</span><span class="pill">Multi-model AI fallback</span><span class="pill">Vercel</span>
       </div>
+      <p class="overview"><strong>Project Overview.</strong> Sleyd is a solo-built, live SaaS that turns text, documents or voice into a shareable presentation with PPTX/PDF export; the product runs across an app, a backend and five n8n workflows.</p>
       <div class="df" role="region" aria-label="Sleyd stack overview">
         <table>
           <thead><tr><th scope="col">layer</th><th scope="col">what it does</th><th scope="col" class="num">size</th></tr></thead>
