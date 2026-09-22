@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nur Rahman Shalahudin — Data Analyst</title>
+<meta name="description" content="Data analyst who reads the business question before choosing the technique. Kernel booting…" />
+<meta name="color-scheme" content="light" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Recursive:MONO,wght@0,400..800;1,400..700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --paper:#F5F4EE;
+  --paper-line:#E7E4DA;
+  --ink:#14161B;
+  --prose:#33363C;
+  --meta:#5A5750;
+  --meta-line:#D5D0C4;
+
+  --nb-blue:#2E5EBB;
+  --nb-blue-soft:#5A82CC;
+  --cell-tag:#3B4BA8;
+  --cell-bg:#EFEDE6;
+  --cell-bg-alt:#EDEBE3;
+
+  --pen:#C4342A;
+  --pen-soft:rgba(196,52,42,.16);
+
+  --ok:#128B45;
+  --warn:#B8791D;
+
+  --mono:"Recursive", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --sans:"Recursive", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono-var:"MONO" 1, "wght" 400;
+  --mono-var-bold:"MONO" 1, "wght" 700;
+  --sans-var:"MONO" 0, "wght" 400;
+  --sans-var-med:"MONO" 0, "wght" 500;
+  --sans-var-bold:"MONO" 0, "wght" 700;
+
+  --gutter:60px;
+  --gutter-mobile:44px;
+  --maxw:1120px;
+  --edge:clamp(20px,4vw,44px);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-variation-settings:var(--sans-var);
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* Same paper texture as the notebook — a fingernail's weight of noise, nothing more. */
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .07 0 0 0 0 .07 0 0 0 0 .07 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity:.7;
+  mix-blend-mode:multiply;
+}
+
+/* ---------- Same chrome as the notebook page ---------- */
+.chrome{position:sticky; top:0; z-index:20; background:var(--paper); border-bottom:1px solid var(--meta-line)}
+.chrome-inner{max-width:var(--maxw); margin:0 auto; padding:9px var(--edge); display:flex; align-items:center; gap:16px; font-family:var(--mono); font-variation-settings:var(--mono-var); font-size:12px; color:var(--meta)}
+.logo{display:flex; align-items:center; gap:8px; color:var(--ink); font-weight:600}
+.logo svg{width:18px; height:18px}
+.file{color:var(--ink); font-weight:500}
+.file .ext{color:var(--meta)}
+.chrome .kernel{margin-left:auto; display:inline-flex; align-items:center; gap:6px; padding:2px 8px; border:1px solid var(--meta-line); border-radius:11px}
+.chrome .kernel-dot{width:6px; height:6px; border-radius:50%; background:var(--warn); box-shadow:0 0 0 2px rgba(184,121,29,.18)}
+.chrome .kernel.ready .kernel-dot{background:var(--ok); box-shadow:0 0 0 2px rgba(18,139,69,.18)}
+
+.toolbar{max-width:var(--maxw); margin:0 auto; padding:6px var(--edge) 4px; display:flex; align-items:center; gap:10px; font-family:var(--mono); font-variation-settings:var(--mono-var); font-size:12px; color:var(--meta); border-bottom:1px solid var(--meta-line)}
+.toolbar .btn-row{display:flex; gap:2px}
+.toolbar .b{padding:2px 8px; border:1px solid transparent; border-radius:3px; background:transparent; color:var(--prose); cursor:default}
+.toolbar .sep{width:1px; height:14px; background:var(--meta-line)}
+.toolbar .mode{margin-left:auto; padding:2px 8px; background:var(--cell-bg); border-radius:3px}
+
+/* ---------- The welcome stage ---------- */
+main{max-width:var(--maxw); margin:0 auto; padding:44px var(--edge) 40px; position:relative; z-index:1}
+
+.stage{display:grid; grid-template-columns:var(--gutter) minmax(0,1fr); gap:0; margin-bottom:20px; position:relative}
+@media (max-width:760px){ .stage{grid-template-columns:var(--gutter-mobile) minmax(0,1fr)} }
+
+.tag{
+  padding:8px 12px 0 0; text-align:right;
+  font-family:var(--mono); font-variation-settings:var(--mono-var);
+  font-size:12px; color:var(--cell-tag); font-weight:500;
+  user-select:none; letter-spacing:.02em; align-self:start;
+}
+.tag.out{color:var(--pen)}
+
+/* code cell for the boot line */
+.stage.code .body{background:var(--cell-bg); border-radius:3px; padding:12px 16px; min-height:0; border-left:2px solid transparent}
+.stage.code .body pre{margin:0; font-family:var(--mono); font-variation-settings:var(--mono-var); font-size:15px; line-height:1.6; color:var(--ink); white-space:pre-wrap; word-break:break-word}
+.stage.code .body .kw{color:var(--nb-blue); font-weight:500}
+.stage.code .body .fn{color:var(--pen)}
+.stage.code .body .str{color:var(--ok)}
+.stage.code .body .n{color:var(--warn)}
+.stage.code .body .cm{color:var(--meta); font-style:italic}
+.stage.code .body .caret{display:none}
+body.animate .stage.code .body .caret{display:inline-block; width:.55ch; height:1.05em; background:var(--ink); vertical-align:-.15em; margin-left:1px; animation:caret 1s steps(1) infinite}
+body.animate .stage.code.done .body .caret{display:none}
+@keyframes caret{50%{opacity:0}}
+
+/* ---------- The matplotlib-style figure that carries the portrait ---------- */
+.stage.out .body{padding:8px 16px 10px}
+.figure{
+  max-width:520px; margin:8px 0 4px;
+  background:var(--paper);
+  border:1px solid var(--meta-line);
+  padding:14px 18px 22px;
+  position:relative;
+  box-shadow:0 2px 0 rgba(20,22,27,.04);
+}
+.figure h1.fig-title{
+  font-family:var(--mono); font-variation-settings:var(--mono-var-bold);
+  font-size:26px; color:var(--ink); text-align:center;
+  margin:0 0 14px; line-height:1.2; letter-spacing:-.01em; font-weight:700;
+}
+.figure .fig-frame{
+  position:relative; aspect-ratio:1/1;
+  background:var(--cell-bg-alt);
+  border:1px solid var(--ink);
+  overflow:hidden;
+}
+.figure .fig-frame img{
+  width:100%; height:100%; object-fit:cover; display:block;
+  filter:grayscale(.06) contrast(1.02);
+}
+/* Motion is opt-in via body.animate and driven by CSS keyframes so the animation self-completes
+   without relying on JS class flips (which don't tick under headless virtual-time). */
+body.animate .figure .fig-frame img{animation:reveal 1.2s .3s cubic-bezier(.16,1,.3,1) both}
+body.animate .figure .fig-frame::before{
+  content:""; position:absolute; inset:0; background:var(--cell-bg-alt); z-index:1;
+  animation:renderLift 1.4s .2s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes reveal{
+  0%{opacity:0; transform:scale(1.02)}
+  100%{opacity:1; transform:scale(1)}
+}
+@keyframes renderLift{
+  0%{opacity:1} 100%{opacity:0}
+}
+
+/* matplotlib-style tick marks around the figure frame */
+.figure .ticks{
+  position:absolute; font-family:var(--mono); font-variation-settings:var(--mono-var);
+  font-size:12px; color:var(--meta); display:flex; justify-content:space-between;
+}
+.figure .ticks.x{left:18px; right:18px; bottom:6px}
+.figure .ticks.y{
+  /* matplotlib's default ax.imshow uses origin='upper' — 0 sits at the top, values increase downward */
+  top:44px; bottom:26px; left:2px; flex-direction:column; align-items:flex-start; text-align:right;
+}
+.figure .ticks.x span, .figure .ticks.y span{padding:0 2px}
+.figure .cap{
+  font-family:var(--mono); font-variation-settings:var(--mono-var);
+  font-size:12px; color:var(--meta); text-align:center; margin-top:8px;
+}
+
+/* the "next" affordance — visible by default, keyframe-driven fade-in when motion is welcome */
+.enter{display:flex; align-items:center; gap:14px; margin-top:22px}
+body.animate .enter{animation:appear .8s 1.7s cubic-bezier(.16,1,.3,1) both}
+@keyframes appear{0%{opacity:0} 100%{opacity:1}}
+.enter .arrow{
+  font-family:"Comic Sans MS", "Marker Felt", "Chalkboard SE", cursive;
+  color:var(--pen); font-size:19px; font-weight:600;
+  transform:rotate(-3deg);
+}
+.enter a{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:10px 20px; background:var(--ink); color:var(--paper);
+  font-family:var(--sans); font-variation-settings:var(--sans-var-med);
+  font-size:19px; text-decoration:none;
+  border-radius:2px; transition:background .15s;
+}
+.enter a:hover{background:var(--pen)}
+.enter a svg{width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2}
+
+/* ---------- The scatter animation that lives around the figure ---------- */
+.scatter{position:absolute; inset:0; pointer-events:none; z-index:0}
+.scatter svg{width:100%; height:100%; display:block}
+.scatter circle{fill:var(--nb-blue); opacity:.32}
+.scatter .p2{fill:var(--pen); opacity:.32}
+.scatter .p3{fill:var(--warn); opacity:.32}
+/* Motion is opt-in — headless captures and reduced-motion see the settled state. */
+body.animate .scatter circle{opacity:0; animation:dot 2.8s cubic-bezier(.16,1,.3,1) both}
+@keyframes dot{
+  0%{opacity:0; transform:scale(0)}
+  40%{opacity:.55; transform:scale(1)}
+  100%{opacity:.32; transform:scale(1)}
+}
+
+/* accessibility floor */
+:focus-visible{outline:2px solid var(--nb-blue); outline-offset:3px}
+
+footer{
+  max-width:var(--maxw); margin:0 auto; padding:20px var(--edge) 40px;
+  border-top:1px solid var(--meta-line); font-family:var(--mono);
+  font-variation-settings:var(--mono-var); font-size:12px; color:var(--meta);
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;
+}
+footer a{color:var(--meta); text-decoration:none}
+footer a:hover{color:var(--ink)}
+</style>
+</head>
+<body>
+<!--
+  THESIS: Same notebook world as the main page; this cell is the boot sequence — In[0] loads Nur as a matplotlib figure, and Out[0] carries the reader across the threshold into In[1].
+  OWN-WORLD: Inherited from notebook.html — off-white paper, Jupyter-blue metadata, monospace code, Recursive font (sans + mono axes).
+  STORY: A visitor lands on a running notebook mid-boot; a code cell types itself out and executes; the output is his portrait, framed as a plt.imshow figure; a pen-note points at the door.
+  FIRST VIEWPORT: Chrome bar with kernel "Starting…" (amber), In[0] code cell typing, Out[0] beneath with a matplotlib figure (portrait inside axes with tick marks), pen-note "→ open the notebook".
+  FORM: Extension of notebook.html's Notebook Print-out direction, no new roll.
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+-->
+
+<header class="chrome" role="banner">
+  <div class="chrome-inner">
+    <span class="logo">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 3v18M12 3v18M18 3v18M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+      <span>jupyter</span>
+    </span>
+    <span class="file"><span class="ext">notebook /</span> nur_rahman_shalahudin.ipynb</span>
+    <span class="kernel" id="kernel">
+      <span class="kernel-dot" aria-hidden="true"></span>
+      <span id="kernel-text">Python 3 · starting kernel…</span>
+    </span>
+  </div>
+</header>
+
+<div class="toolbar" aria-hidden="true">
+  <div class="btn-row">
+    <button class="b" tabindex="-1">+</button>
+    <div class="sep"></div>
+    <button class="b" tabindex="-1">✂</button>
+    <button class="b" tabindex="-1">📋</button>
+    <button class="b" tabindex="-1">▶ Run</button>
+    <button class="b" tabindex="-1">■</button>
+    <button class="b" tabindex="-1">↻</button>
+  </div>
+  <span class="mode">Trusted · Read-only</span>
+</div>
+
+<main>
+
+  <!-- Cell 0: the boot cell. In[0] types itself, Out[0] renders the portrait. -->
+  <section class="stage code" id="boot-in">
+    <div class="tag">In [0]:</div>
+    <div class="body">
+<pre id="boot-code"><span class="cm"># bootstrap the notebook — load the analyst</span>
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> matplotlib.image <span class="kw">as</span> mpimg
+
+img = mpimg.<span class="fn">imread</span>(<span class="str">"assets/Sholah.png"</span>)
+fig, ax = plt.<span class="fn">subplots</span>(figsize=(<span class="n">6</span>, <span class="n">6</span>))
+ax.<span class="fn">imshow</span>(img)
+ax.<span class="fn">set_title</span>(<span class="str">"nur_rahman_shalahudin — data analyst"</span>)
+plt.<span class="fn">show</span>()<span class="caret" aria-hidden="true"></span></pre>
+    </div>
+  </section>
+
+  <section class="stage out" id="boot-out">
+    <div class="tag out">Out [0]:</div>
+    <div class="body" style="position:relative">
+      <!-- scatter dots animate in around the figure as data points settling -->
+      <div class="scatter" aria-hidden="true">
+        <svg viewBox="0 0 800 640" preserveAspectRatio="none">
+          <!-- deterministic positions so the composition holds across widths -->
+          <circle cx="640" cy="60"  r="4"   style="animation-delay:.05s"/>
+          <circle cx="720" cy="120" r="3"   style="animation-delay:.10s"/>
+          <circle cx="580" cy="30"  r="3.5" style="animation-delay:.15s"/>
+          <circle cx="680" cy="200" r="3"   style="animation-delay:.20s"/>
+          <circle cx="760" cy="280" r="4"   style="animation-delay:.25s"/>
+          <circle cx="620" cy="350" r="3"   style="animation-delay:.30s"/>
+          <circle cx="720" cy="420" r="4.5" style="animation-delay:.35s"/>
+          <circle cx="670" cy="500" r="3"   style="animation-delay:.40s"/>
+          <circle cx="770" cy="560" r="3.5" style="animation-delay:.45s"/>
+          <circle cx="610" cy="600" r="3"   style="animation-delay:.50s"/>
+          <circle cx="30"  cy="90"  r="3"   style="animation-delay:.55s"/>
+          <circle cx="80"  cy="180" r="4"   style="animation-delay:.60s"/>
+          <circle cx="20"  cy="280" r="3.5" style="animation-delay:.65s"/>
+          <circle cx="90"  cy="380" r="3"   style="animation-delay:.70s"/>
+          <circle cx="40"  cy="470" r="4"   style="animation-delay:.75s"/>
+          <circle cx="110" cy="560" r="3"   style="animation-delay:.80s"/>
+          <circle cx="70"  cy="620" r="3.5" style="animation-delay:.85s"/>
+          <circle class="p2" cx="740" cy="360" r="4" style="animation-delay:.90s"/>
+          <circle class="p2" cx="50"  cy="220" r="3" style="animation-delay:.95s"/>
+          <circle class="p2" cx="700" cy="90"  r="3" style="animation-delay:1.00s"/>
+          <circle class="p3" cx="120" cy="440" r="3" style="animation-delay:1.05s"/>
+          <circle class="p3" cx="660" cy="620" r="3" style="animation-delay:1.10s"/>
+          <circle class="p3" cx="60"  cy="30"  r="3" style="animation-delay:1.15s"/>
+        </svg>
+      </div>
+
+      <figure class="figure" id="fig">
+        <h1 class="fig-title">nur_rahman_shalahudin — data analyst</h1>
+        <div class="fig-frame">
+          <img src="assets/Sholah.png" alt="Portrait photograph of Nur Rahman Shalahudin">
+        </div>
+        <div class="ticks x" aria-hidden="true">
+          <span>0</span><span>200</span><span>400</span><span>600</span><span>800</span><span>1000</span>
+        </div>
+        <div class="ticks y" aria-hidden="true">
+          <span>0</span><span>200</span><span>400</span><span>600</span><span>800</span><span>1000</span>
+        </div>
+        <div class="cap">Fig. 0 — &lt;matplotlib.image.AxesImage at 0x7f2a1c40&gt;</div>
+      </figure>
+
+      <div class="enter" id="enter">
+        <span class="arrow" aria-hidden="true">→ open the notebook</span>
+        <a href="notebook.html">
+          Continue
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span>Python 3 · nur_rahman_shalahudin.ipynb · booted <span id="today"></span></span>
+  <span>© <span id="yr"></span> Nur Rahman Shalahudin</span>
+</footer>
+
+<script>
+(function(){
+  var d = new Date();
+  document.getElementById('yr').textContent = d.getFullYear();
+  document.getElementById('today').textContent = d.toISOString().slice(0,10);
+
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var kernel = document.getElementById('kernel');
+  var kText = document.getElementById('kernel-text');
+  var fig = document.getElementById('fig');
+  var enter = document.getElementById('enter');
+  var bootCell = document.getElementById('boot-in');
+
+  if (reduced){
+    // Motion disabled: keep the kernel steady and the caret hidden. Everything else is already visible.
+    kernel.classList.add('ready');
+    kText.textContent = 'Python 3 · idle';
+    bootCell.classList.add('done');
+    return;
+  }
+
+  // Opt into the animation only when motion is welcome. CSS keyframes carry the beat;
+  // this JS only walks the kernel status text through its three states.
+  document.body.classList.add('animate');
+  setTimeout(function(){ kText.textContent = 'Python 3 · running In [0]…'; }, 900);
+  setTimeout(function(){
+    kernel.classList.add('ready');
+    kText.textContent = 'Python 3 · idle';
+    bootCell.classList.add('done');
+  }, 2200);
+
+  // Optional autopilot: after 6.5s of quiet on this page, follow the CTA.
+  // Disabled by default — the visitor decides the pace.
+  // setTimeout(function(){ location.href = 'notebook.html'; }, 6500);
+})();
+</script>
+
+</body>
+</html>

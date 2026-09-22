@@ -2,6 +2,8 @@
 
 Code companions for Nur Rahman Shalahudin's Data Analyst portfolio, published under [immunieid-code](https://github.com/immunieid-code). The original project archive stays local.
 
+The HTML source for the live [data portfolio](https://nrshalahudin.vercel.app/) is in [`portfolio-site/`](portfolio-site/). CV and certificate PDFs, photos, and deployment configuration are served by the live site and are not duplicated in this source archive.
+
 ## Projects and source
 
 | Project | Source | What the code does | Evidence and limits |
