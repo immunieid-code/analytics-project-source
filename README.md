@@ -13,7 +13,7 @@ Code companions for Nur Rahman Shalahudin's Data Analyst portfolio, published un
 | PT Gagas Envirotek growth analysis | [`gagas-growth/`](gagas-growth/) | Customer and product analysis, revenue focus, seasonality and predictive models | Raw purchase orders and customer level outputs are withheld. |
 | 2024 voter matching | [`voter-matching/matching.sql`](voter-matching/matching.sql) | SQL joins across voter and field tables | SQL only; voter names and contact data are withheld. |
 
-Other public case studies already have dedicated repositories: [B2B lab analytics](https://github.com/immunieid-code/b2b-lab-analytics), [growth simulation](https://github.com/immunieid-code/b2b-lab-growth-simulation), [revenue concentration](https://github.com/immunieid-code/b2b-lab-revenue-concentration), [F&B churn](https://github.com/immunieid-code/fnb-revenue-churn-analytics), and [voter matching](https://github.com/immunieid-code/pemilu-2024-db-matching).
+The client case studies also have dedicated repositories with source: [PT Gagas Envirotek customer analytics](https://github.com/immunieid-code/b2b-lab-analytics), [PT Gagas Envirotek growth simulation](https://github.com/immunieid-code/b2b-lab-growth-simulation), [PT Andaru Persada Mandiri revenue concentration](https://github.com/immunieid-code/b2b-lab-revenue-concentration), [F&B churn method reconstruction](https://github.com/immunieid-code/fnb-revenue-churn-analytics), and [voter matching SQL](https://github.com/immunieid-code/pemilu-2024-db-matching). The three latest n8n exports are in [AI automation workflows](https://github.com/immunieid-code/ai-automation-workflows).
 
 ## How to read or run
 
