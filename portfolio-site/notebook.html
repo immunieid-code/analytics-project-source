@@ -377,7 +377,7 @@ engagements.head()</pre>
             <tr><td class="i">1</td><td>PT Gagas Envirotek · Growth simulation</td><td>B2B lab equipment</td><td>Data analyst</td><td class="num">1,575</td><td>Cross-sell <span class="marked">AUC 0.97</span> <span class="pen-inline">nice — ask about this</span></td><td class="tag-c">delivered</td></tr>
             <tr><td class="i">2</td><td>PT Andaru Persada Mandiri · Concentration</td><td>B2B lab equipment</td><td>Data analyst</td><td class="num">11 yr</td><td>58.5% of revenue from 24 accounts</td><td class="tag-c">delivered</td></tr>
             <tr><td class="i">3</td><td>Churn &amp; Forecasting</td><td>F&amp;B</td><td>Data analyst</td><td class="num">2,430</td><td>29% churn · 3.45mo lifetime</td><td class="tag-c">delivered</td></tr>
-            <tr><td class="i">4</td><td>Voter Database Matching</td><td>Political campaign</td><td>Data analyst</td><td class="num">993</td><td>Days → minutes (SQL + trigram)</td><td class="tag-c">delivered</td></tr>
+            <tr><td class="i">4</td><td>Dapil 7 Voter Data Reconciliation</td><td>Political campaign</td><td>Data analyst</td><td class="num">15,156</td><td>5 kecamatan · 34 kelurahan · PostgreSQL</td><td class="tag-c">delivered</td></tr>
             <tr><td class="i">5</td><td>Sleyd AI</td><td>Own SaaS</td><td>Founder &amp; builder</td><td class="num">~68</td><td>5 n8n workflows in production</td><td class="tag-c">live</td></tr>
             <tr><td class="i">6</td><td>PT Andis · Sales market mapping</td><td>B2B lab equipment</td><td>Data analyst</td><td class="num">—</td><td>CRM audit and dashboard v1</td><td class="tag-c">documented</td></tr>
             <tr><td class="i">7</td><td>Cafe Adaruang · Cash flow</td><td>F&amp;B</td><td>Data analyst</td><td class="num">8 mo</td><td>Rp 110K average monthly net cash flow</td><td class="tag-c">delivered</td></tr>
@@ -629,24 +629,29 @@ fc = Prophet().fit(monthly).predict(<span class="fn">make_future</span>(months=<
   <section class="cell code" style="--d:.10s">
     <div class="tag">In [9]:</div>
     <div class="body">
-<pre><span class="cm">-- election campaign · reconcile two voter registries</span>
-<span class="kw">CREATE EXTENSION IF NOT EXISTS</span> pg_trgm;
-<span class="kw">SELECT</span> a.nama, a.rt, a.rw, a.tps, b.kontak
-<span class="kw">FROM</span> daftar_pemilih a
-<span class="kw">JOIN</span> data_tim b
-  <span class="kw">ON</span> <span class="fn">similarity</span>(a.nama, b.nama) &gt; <span class="n">0.55</span>
-  <span class="kw">AND</span> a.rt = b.rt <span class="kw">AND</span> a.tps = b.tps;</pre>
+<pre><span class="cm">-- pass 1 · strict exact match within each area</span>
+<span class="kw">SELECT DISTINCT</span>
+  tim.no, dpt.nama, dpt.jenis_kelamin, dpt.usia,
+  dpt.kelurahan, tim.kecamatan, tim.rt, tim.rw,
+  dpt.tps, tim.kontak
+<span class="kw">FROM</span> data_tim tim
+<span class="kw">JOIN</span> daftar_pemilih dpt
+  <span class="kw">ON</span> tim.nama = dpt.nama
+  <span class="kw">AND</span> tim.rt = dpt.rt <span class="kw">AND</span> tim.rw = dpt.rw
+  <span class="kw">AND</span> tim.usia = dpt.usia
+<span class="kw">WHERE</span> tim.kecamatan = <span class="str">'KEBAYORAN LAMA'</span>
+  <span class="kw">AND</span> dpt.kelurahan = <span class="str">'CIPULIR'</span>;</pre>
     </div>
   </section>
   <section class="cell out proj" style="--d:.16s">
     <div class="tag out">Out [9]:</div>
     <div class="body">
-      <h3>Voter database matching for a 2024 campaign <span class="rel">993 records · days → minutes</span></h3>
+      <h3>Dapil 7 voter data reconciliation for a 2024 campaign <span class="rel">15,156 field records · 5 kecamatan</span></h3>
       <div class="meta">
-        <span class="pill">PostgreSQL</span><span class="pill">pg_trgm</span><span class="pill">Record linkage</span>
+        <span class="pill">PostgreSQL</span><span class="pill">Multi-key joins</span><span class="pill">Data reconciliation</span>
       </div>
-      <p class="overview"><strong>Project Overview.</strong> A 2024 campaign in Kebayoran Lama needed its voter roll linked to field-contact records across six kelurahan so coordinators could organize polling-station follow-up.</p>
-      <p><strong>Problem.</strong> The campaign team spent days matching two voter lists by eye. <strong>Approach.</strong> Used PostgreSQL exact joins on normalized names and polling stations, then pg_trgm similarity at 0.55 for unmatched records. <strong>Result.</strong> Matched and exported 993 records across six neighborhoods in minutes, giving field coordinators a sorted list for follow-up.</p>
+      <p class="overview"><strong>Project Overview.</strong> A 2024 Dapil 7 campaign needed to reconcile field-contact records with KPU voter data spread across 3,830 polling-station PDFs, 34 kelurahan and five kecamatan: Kebayoran Baru, Setiabudi, Kebayoran Lama, Pesanggrahan and Cilandak.</p>
+      <p><strong>Problem.</strong> The 15,156-row field list contained incomplete and inconsistent area fields, while the voter roll arrived as thousands of TPS-level files with varying headers. Manual lookup could not provide a reliable district-wide operating list. <strong>Approach.</strong> Consolidated the voter extracts into a consistent schema and prepared 14,021 field rows for SQL. The first PostgreSQL pass used <code>SELECT DISTINCT</code> joins on name, RT, RW and age within each kecamatan and kelurahan, then assembled area outputs with <code>UNION ALL</code>. <code>FULL OUTER JOIN</code> checks exposed unmatched names and missing TPS values; targeted follow-up passes against staged voter tables retried reviewed residuals on name, RT and RW. <strong>Result.</strong> Delivered matched outputs organized by area and TPS, enriched with voter demographics and contact fields so coordinators could plan local follow-up from one structured dataset.</p>
       <div class="links">
         <a href="https://nr-shalahudin-7jnq.slides.sleyd.com" target="_blank" rel="noopener">
           Slides <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7M10 14L21 3M21 14v7H3V3h7"/></svg></a>

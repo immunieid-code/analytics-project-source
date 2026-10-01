@@ -49,8 +49,8 @@ These notes describe what is present in the source files. Business outcomes come
 
 ## Voter matching — PostgreSQL
 
-**Project Overview.** A 2024 Kebayoran Lama campaign task linked a voter roll with field-contact records across six kelurahan so coordinators could organize polling-station follow-up. Personal records remain outside this repository.
+**Project Overview.** A 2024 Dapil 7 campaign task reconciled 15,156 field-contact records with KPU voter data distributed across 3,830 polling-station PDFs, 34 kelurahan and five kecamatan. Personal records remain outside this repository.
 
-- **Question:** How can records from two voter-related tables be linked for field coordination?
-- **Code:** `matching.sql` contains table creation and joins using names, RT/RW and other fields. The larger case study discusses exact matching and a trigram fallback at threshold 0.55.
-- **Evidence:** The local final CSV contains 993 records. It is withheld because it includes personal data. The SQL alone is a method artifact; without table definitions and permitted data it cannot be run directly.
+- **Question:** How can fragmented TPS-level voter files and inconsistent field-contact records be reconciled into an operational list for coordinators?
+- **Code:** `matching.sql` represents the staged workflow found in the project SQL: strict area-scoped `SELECT DISTINCT` joins on name, RT, RW and age; `UNION ALL` assembly; `FULL OUTER JOIN` residual checks; and reviewed retries on name, RT and RW.
+- **Evidence:** The local archive contains 3,830 source PDFs and a 14,021-row SQL-ready field file derived from 15,156 raw rows. Personal voter and contact data are withheld; the published SQL is a method artifact and requires permitted source tables to run.
